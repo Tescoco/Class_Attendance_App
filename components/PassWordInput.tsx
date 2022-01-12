@@ -2,7 +2,12 @@ import { View, StyleSheet, TextInput as DefaultTextInput } from "react-native";
 import { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 
-function PassWordInput() {
+interface PassWordInputProps {
+  setPassword: any;
+  password: string;
+}
+
+function PassWordInput({ setPassword, password }: PassWordInputProps) {
   const [state, setState] = useState("");
   const [secureTextEntry, setSecureTextEntry] = useState(true);
 
@@ -11,8 +16,8 @@ function PassWordInput() {
       <View style={styles.containerInner}>
         <DefaultTextInput
           style={styles.textInput}
-          onChangeText={(e) => setState(e)}
-          value={state}
+          onChangeText={(e) => setPassword(e)}
+          value={password}
           secureTextEntry={secureTextEntry}
           placeholder="Password"
         />

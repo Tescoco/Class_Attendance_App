@@ -1,13 +1,17 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { Text } from "./Themed";
 
-function Button({ callback }: any) {
-  return (
+function Button({ callback, loading }: any) {
+  return !loading ? (
     <View style={styles.container}>
-      <View style={styles.containerInner}>
-        <Text onPress={callback} style={styles.text}>
-          Continue
-        </Text>
+      <View onPress={callback} style={styles.containerInner}>
+        <Text style={styles.text}>Continue</Text>
+      </View>
+    </View>
+  ) : (
+    <View style={styles.container}>
+      <View style={styles.containerInnerLoader}>
+        <ActivityIndicator size="large" color="white" />
       </View>
     </View>
   );
@@ -32,7 +36,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  containerInnerLoader: {
+    width: 90,
+    height: 60,
+    backgroundColor: "green",
+    borderRadius: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   text: {
     fontSize: 16,
+    color: "white",
   },
 });

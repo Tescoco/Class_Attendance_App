@@ -6,8 +6,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Colors from "../constants/Colors";
 import RootScreen from "../screens/Root";
 import LoginScreen from "../screens/Login";
 
@@ -24,18 +24,49 @@ export default function Navigation() {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const [screenType, setscreenType] = React.useState("");
+
+  const checkNewUser = async () => {
+    try {
+      const value = await AsyncStorage.getItem("data");
+      if (value !== null) {
+        setscreenType("Root");
+      } else {
+        setscreenType("Login");
+      }
+    } catch (error) {}
+  };
+
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Root"
-        component={RootScreen}
-        options={{ headerShown: false }}
-      />
+      {screenType == "Login" ? (
+        <>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Root"
+            component={RootScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      ) : (
+        <>
+          <Stack.Screen
+            name="Root"
+            component={RootScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+        </>
+      )}
+
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group> */}

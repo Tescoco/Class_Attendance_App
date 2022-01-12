@@ -1,16 +1,46 @@
+import { useState } from "react";
 import { StyleSheet, Image } from "react-native";
+import { signin } from "../api/signin";
 import Button from "../components/Button";
 import PassWordInput from "../components/PassWordInput";
 import TextInput from "../components/TextInput";
 
 import { View } from "../components/Themed";
 import { RootStackScreenProps } from "../types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({
   navigation,
 }: RootStackScreenProps<"Login">) {
+  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const details = {
+    username,
+    password,
+  };
+
+  const storeData = async (data: any) => {
+    try {
+      await AsyncStorage.setItem("data", JSON.stringify(data));
+    } catch (error) {
+      //  Error saving data
+    }
+  };
+
   const loginFunc = () => {
-    navigation.replace("Root");
+    if (username != "" && password != "") {
+      setLoading(true);
+      signin(details).then((data) => {
+        if (data.error) {
+          setLoading(false);
+        } else {
+          storeData(data);
+          navigation.replace("Root");
+        }
+      });
+    }
   };
 
   return (
@@ -19,9 +49,9 @@ export default function LoginScreen({
         style={styles.image}
         source={require("../assets/images/FUNAAB_Logo.jpg")}
       />
-      <TextInput />
-      <PassWordInput />
-      <Button callback={loginFunc} />
+      <TextInput username={username} setUsername={setUsername} />
+      <PassWordInput setPassword={setPassword} password={password} />
+      <Button loading={loading} callback={loginFunc} />
     </View>
   );
 }

@@ -3,7 +3,7 @@ import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 
 interface Props {
-  content: string;
+  content: number;
   title: string;
 }
 

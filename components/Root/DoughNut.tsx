@@ -1,13 +1,9 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { View, Text } from "../Themed";
 import { StyleSheet } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
-interface Props {}
-
-function DoughNut({}: Props): ReactElement {
-  const count = 80;
-
+function DoughNut({ count }: any): ReactElement {
   return (
     <View style={styles.container}>
       <AnimatedCircularProgress

@@ -2,18 +2,17 @@ import { ReactElement } from "react";
 import { View } from "../Themed";
 import { StyleSheet, Text } from "react-native";
 
-interface Props {}
+interface TopCategoriesProps {
+  data: Array<Type>;
+}
+interface Type {
+  student_first_name: string;
+  student_last_name: string;
+  // attendance: number;
+  matric_number: number;
+}
 
-function Table({}: Props): ReactElement {
-  const studentList = [
-    { name: "Akinremi Teslim", present: true },
-    { name: "Falade Vincent", present: true },
-    { name: "Onabanjo Peter", present: false },
-    { name: "Olorunnishola Taiwo", present: true },
-    { name: "Ojo Emmanuel", present: false },
-    { name: "Joseph Olasheinde", present: true },
-  ];
-
+function Table({ data }: TopCategoriesProps): ReactElement {
   return (
     <View style={styles.container}>
       <View style={styles.containerInner}>
@@ -26,13 +25,15 @@ function Table({}: Props): ReactElement {
               <Text style={styles.text}>Status</Text>
             </View>
           </View>
-          {studentList.map((student, i) => (
+          {data.map((student, i) => (
             <View key={i} style={styles.tableContent}>
               <View style={styles.name}>
-                <Text style={styles.contentText}>{student.name}</Text>
+                <Text style={styles.contentText}>
+                  {student.student_first_name} {student.student_last_name}
+                </Text>
               </View>
               <View style={styles.attendance}>
-                {student.present ? (
+                {student.matric_number < 20182000 ? (
                   <Text style={styles.present}>present</Text>
                 ) : (
                   <Text style={styles.absent}>absent</Text>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e4e4e4",
     display: "flex",
     alignItems: "center",
-    paddingBottom: 40,
+    paddingBottom: 200,
   },
   containerInner: {
     width: "93%",

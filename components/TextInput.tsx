@@ -1,17 +1,20 @@
 import { View, StyleSheet, TextInput as DefaultTextInput } from "react-native";
 import { useState } from "react";
 
-function TextInput() {
-  const [state, setState] = useState("");
+interface TextInputProps {
+  username: string;
+  setUsername: any;
+}
 
+function TextInput({ username, setUsername }: TextInputProps) {
   return (
     <View style={styles.container}>
       <View style={styles.containerInner}>
         <DefaultTextInput
           style={styles.textInput}
-          onChangeText={(e) => setState(e)}
-          value={state}
-          placeholder="Email"
+          onChangeText={(e) => setUsername(e)}
+          value={username}
+          placeholder="Username"
         />
       </View>
     </View>
