@@ -4,7 +4,7 @@ import { Text } from "./Themed";
 function Button({ callback, loading }: any) {
   return !loading ? (
     <View style={styles.container}>
-      <View onPress={callback} style={styles.containerInner}>
+      <View onTouchStart={callback} style={styles.containerInner}>
         <Text style={styles.text}>Continue</Text>
       </View>
     </View>

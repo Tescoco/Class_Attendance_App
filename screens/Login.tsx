@@ -22,6 +22,7 @@ export default function LoginScreen({
   };
 
   const storeData = async (data: any) => {
+    console.log(data);
     try {
       await AsyncStorage.setItem("data", JSON.stringify(data));
     } catch (error) {
@@ -36,7 +37,7 @@ export default function LoginScreen({
         if (data.error) {
           setLoading(false);
         } else {
-          storeData(data);
+          storeData({ ...data, last_SignUp: Date.now() });
           navigation.replace("Root");
         }
       });

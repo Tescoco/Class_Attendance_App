@@ -9,7 +9,7 @@ interface Type {
   student_first_name: string;
   student_last_name: string;
   // attendance: number;
-  matric_number: number;
+  attendance: number;
 }
 
 function Table({ data }: TopCategoriesProps): ReactElement {
@@ -33,7 +33,7 @@ function Table({ data }: TopCategoriesProps): ReactElement {
                 </Text>
               </View>
               <View style={styles.attendance}>
-                {student.matric_number < 20182000 ? (
+                {student.attendance === 0 ? (
                   <Text style={styles.present}>present</Text>
                 ) : (
                   <Text style={styles.absent}>absent</Text>

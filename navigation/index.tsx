@@ -26,45 +26,47 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
   const [screenType, setscreenType] = React.useState("");
 
+  const getTokenAge = (last_SignUp: number) => {
+    const nowTime = Date.now();
+
+    const hour = 3600000;
+
+    return Math.round((nowTime - last_SignUp) / hour) + 1;
+  };
+
   const checkNewUser = async () => {
     try {
       const value = await AsyncStorage.getItem("data");
       if (value !== null) {
-        setscreenType("Root");
+        if (getTokenAge(JSON.parse(value).last_SignUp) > 5) {
+          setscreenType("Login");
+        } else {
+          setscreenType("Root");
+        }
       } else {
         setscreenType("Login");
       }
     } catch (error) {}
   };
 
+  React.useEffect(() => {
+    checkNewUser();
+  }, []);
+
   return (
     <Stack.Navigator>
       {screenType == "Login" ? (
-        <>
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Root"
-            component={RootScreen}
-            options={{ headerShown: false }}
-          />
-        </>
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
       ) : (
-        <>
-          <Stack.Screen
-            name="Root"
-            component={RootScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-        </>
+        <Stack.Screen
+          name="Root"
+          component={RootScreen}
+          options={{ headerShown: false }}
+        />
       )}
 
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>

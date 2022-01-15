@@ -10,9 +10,6 @@ import { getAttendance } from "../api/attendance";
 import { useEffect, useState } from "react";
 
 export default function RootScreen({}: RootStackScreenProps<"Root">) {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBmOTdhZDU3LTQ0YTktNGI1MC1hMTJhLTdiZWQyNGM5ZWIwNyIsInVzZXJuYW1lIjoib3d1c3VzYiIsImlhdCI6MTY0MjAwMTI0NiwiZXhwIjoxNjQyMDA0ODQ2fQ.C-zT4lcyw25XWIqUXCUlqCxeIvtSpUQhNUO3vyGwP_M";
-
   const [data, setData] = useState([]);
   const [presentLength, setPresentLength] = useState(0);
   const [count, setCount] = useState(0);
@@ -25,7 +22,13 @@ export default function RootScreen({}: RootStackScreenProps<"Root">) {
     const week = 604800000;
 
     //compute the number of weeks form this week stored as one
-    return Math.round((current_timestamp - startWeek) / week) + 1;
+    const result = Math.round((current_timestamp - startWeek) / week) + 1;
+
+    if (result < 13) {
+      return result;
+    } else {
+      return 12;
+    }
   };
 
   const retrieveData = async () => {
@@ -42,17 +45,17 @@ export default function RootScreen({}: RootStackScreenProps<"Root">) {
   useEffect(() => {
     retrieveData().then((data) =>
       getAttendance({
-        token,
+        token: data,
         week: getCurrentWeek(),
       }).then((data) => {
         setData(data.message.rows);
         setPresentLength(
           data.message.rows.filter(function (el: any) {
-            return el.matric_number < 20182000;
+            return el.attendance === 0;
           }).length
         );
         const studentPresent = data.message.rows.filter(function (el: any) {
-          return el.matric_number < 20182000;
+          return el.attendance === 0;
         }).length;
         setCount((studentPresent / data.message.rows.length) * 100);
       })
@@ -63,16 +66,16 @@ export default function RootScreen({}: RootStackScreenProps<"Root">) {
     setData([]);
     retrieveData().then((data) =>
       getAttendance({
-        token,
+        token: data,
         week: week,
       }).then((data) => {
         setData(data.message.rows);
         const studentPresent = data.message.rows.filter(function (el: any) {
-          return el.matric_number < 20182000;
+          return el.attendance === 0;
         }).length;
         setPresentLength(
           data.message.rows.filter(function (el: any) {
-            return el.matric_number < 20182000;
+            return el.attendance === 0;
           }).length
         );
         setCount((studentPresent / data.message.rows.length) * 100);
