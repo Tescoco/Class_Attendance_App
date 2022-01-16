@@ -5,7 +5,7 @@ import useCachedResources from "./hooks/useCachedResources";
 import Navigation from "./navigation";
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
+  const { isLoadingComplete, page } = useCachedResources();
 
   if (!isLoadingComplete) {
     //check whick screen to load based on
@@ -14,7 +14,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation />
+        <Navigation page={page} />
         <StatusBar />
       </SafeAreaProvider>
     );

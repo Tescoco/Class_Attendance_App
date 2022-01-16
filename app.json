@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "class_attendance",
-    "slug": "class_attendance",
+    "name": "ELE 391",
+    "slug": "ELE_391",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/FUNAAB_Logo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.tescoco.ELE_391"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

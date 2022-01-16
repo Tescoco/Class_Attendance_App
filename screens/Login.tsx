@@ -22,7 +22,6 @@ export default function LoginScreen({
   };
 
   const storeData = async (data: any) => {
-    console.log(data);
     try {
       await AsyncStorage.setItem("data", JSON.stringify(data));
     } catch (error) {
